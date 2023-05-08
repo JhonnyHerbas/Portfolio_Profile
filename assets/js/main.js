@@ -33,13 +33,39 @@ navLink.forEach(n => n.addEventListener('click', linkAction))
 const Header = () => {
     const header = document.getElementById('header')
     // When the scroll is greater than 50 viewport height, add the scroll-header class to the header tag
-    this.scrollY >= 50  ? header.classList.add('blur-header')
-                        : header.classList.remove('blur-header')
+    this.scrollY >= 50 ? header.classList.add('blur-header')
+        : header.classList.remove('blur-header')
 }
-window.addEventListener('scroll', blurHeader)
+
+window.addEventListener('scroll', Header)
 
 /*=============== EMAIL JS ===============*/
+const contactForm = document.getElementById('contact-form'),
+    contactMessage = document.getElementById('contact-message')
 
+const sendEmail = (e) => {
+    e.preventDefault()
+
+    // serviceID - templateID -#form - publicKey
+    emailjs.sendForm('service_tj87imm', 'template_5tj0hnw', '#contact-form', 'U43sAuU2TjT8RYxAS')
+        .then(() => {
+            // Show sent message
+            contactMessage.textContent = 'Message sent successfully ✔'
+
+            // Remove message after five seconds
+            setTimeout(() => {
+                contactMessage.textContent = ''
+            }, 5000)
+
+            // CLear input fields
+            contactForm.reset()
+        }, () => {
+            // Show error message
+            contactMessage.textContent = 'Message not sent (service error) ❌'
+        })
+}
+
+contactForm.addEventListener('submit', sendEmail)
 
 /*=============== SHOW SCROLL UP ===============*/
 
